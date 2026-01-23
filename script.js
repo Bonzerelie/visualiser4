@@ -1322,6 +1322,14 @@ if (showSeventhBtn) {
     })).sort((a, b) => a.abs - b.abs);
   }
 
+  function sendHeight() {
+    const height = document.body.scrollHeight;
+    parent.postMessage({ iframeHeight: height }, "*");
+  }
+  
+  window.addEventListener("load", sendHeight);
+  window.addEventListener("resize", sendHeight);
+
   function intervalSetForRoot(pcSet, rootPc) {
     const out = new Set();
     for (const pc of pcSet) out.add(((pc - rootPc) + 12) % 12);
