@@ -1322,31 +1322,22 @@ if (showSeventhBtn) {
     })).sort((a, b) => a.abs - b.abs);
   }
 
-  let lastHeight = 0;
+let lastHeight = 0;
 
-function sendHeight() {
-  const height = document.documentElement.scrollHeight;
+const ro = new ResizeObserver(entries => {
+  for (const entry of entries) {
+    const height = Math.ceil(entry.contentRect.height);
 
-  if (height !== lastHeight) {
-    parent.postMessage(
-      { iframeHeight: height },
-      "*"
-    );
-    lastHeight = height;
+    if (height !== lastHeight) {
+      parent.postMessage({ iframeHeight: height }, "*");
+      lastHeight = height;
+    }
   }
-}
-
-// Initial + resize
-window.addEventListener("load", sendHeight);
-window.addEventListener("resize", sendHeight);
-
-// 🔑 Watch for dynamic changes
-const observer = new MutationObserver(sendHeight);
-observer.observe(document.body, {
-  childList: true,
-  subtree: true,
-  attributes: true
 });
+
+// Observe the root layout element
+ro.observe(document.documentElement);
+
 
 
   function intervalSetForRoot(pcSet, rootPc) {
