@@ -1,0 +1,364 @@
+:root {
+  --page-bg: #f6f6f6;
+  --text: #111;
+}
+
+* { box-sizing: border-box; }
+
+body {
+  margin: 0;
+  font-family: Arial, Helvetica, sans-serif;
+  background: var(--page-bg);
+  color: var(--text);
+}
+
+.app {
+  /*
+    Sized to fit the 4-octave keyboard (C2 start) without horizontal scrolling.
+    (The 5-octave view will still scroll, as intended.)
+  */
+  max-width: 1260px;
+  margin: 24px auto;
+  padding: 16px;
+}
+
+.topbar {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px 16px;
+  align-items: end;
+  justify-content: space-between;
+  margin-bottom: 14px;
+}
+
+/* scale/chord highlighter on the left + right-side panels */
+.topbar .scaleChordRow {
+  flex-basis: 100%;
+  width: 100%;
+  display: flex;
+  gap: 12px 16px;
+  align-items: stretch;
+  flex-wrap: wrap; /* allows stacking on smaller screens */
+}
+
+/* Left panel (highlighter) stays content-sized */
+.topbar .scaleChordPanel {
+  flex: 0 0 auto;
+  width: fit-content;
+  max-width: 100%;
+  align-self: stretch;
+}
+
+/* Right column: stacks "Currently displayed" + "Keyboard Controls" */
+.topbar .rightPanels {
+  flex: 1 1 360px;
+  min-width: 320px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  align-self: stretch;
+  height: 100%;
+}
+
+/* Make the 'Currently displayed' panel grow so the *combined* right column height
+   matches the left panel, keeping the layout symmetrical. */
+.topbar .rightPanels .analysis {
+  flex: 1 1 auto;
+  margin-top: 0;
+  display: flex;
+  flex-direction: column;
+}
+
+/* Controls panel sits under the analysis panel */
+.topbar .rightPanels .controlsPanel {
+  flex: 0 0 auto;
+  margin-top: 0;
+}
+
+/* Remove extra top spacing when panels live in the topbar row */
+.topbar .chordsPanel { margin-top: 0; }
+
+
+
+.control label {
+  display: block;
+  font-size: 13px;
+  margin-bottom: 6px;
+  opacity: 0.85;
+}
+
+.colorPicker {
+  width: 56px;
+  height: 38px;
+  padding: 0;
+  border: 1px solid #ccc;
+  border-radius: 10px;
+  background: white;
+  cursor: pointer;
+}
+
+select {
+  height: 38px;
+  padding: 0 10px;
+  border-radius: 12px;
+  border: 1px solid rgba(0,0,0,0.2);
+  background: white;
+  cursor: pointer;
+  font-weight: 600;
+}
+
+.swatches {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+}
+
+.swatch {
+  width: 28px;
+  height: 28px;
+  border-radius: 999px;
+  border: 1px solid rgba(0,0,0,0.2);
+  cursor: pointer;
+  background: #ddd;
+}
+.swatch:focus {
+  outline: 2px solid rgba(0,0,0,0.35);
+  outline-offset: 2px;
+}
+
+button {
+  height: 38px;
+  padding: 0 14px;
+  border-radius: 12px;
+  border: 1px solid rgba(0,0,0,0.2);
+  background: white;
+  cursor: pointer;
+  font-weight: 700;
+}
+button:active { transform: translateY(1px); }
+
+.btnSubtle {
+  font-weight: 700;
+  opacity: 0.9;
+}
+
+.segmented {
+  display: inline-flex;
+  border: 1px solid rgba(0,0,0,0.2);
+  border-radius: 12px;
+  overflow: hidden;
+  background: #fff;
+}
+
+.segBtn {
+  border: 0;
+  border-right: 1px solid rgba(0,0,0,0.12);
+  border-radius: 0;
+  height: 38px;
+  padding: 0 12px;
+  background: transparent;
+  font-weight: 800;
+  cursor: pointer;
+}
+.segBtn:last-child { border-right: 0; }
+.segBtn.isActive {
+  background: rgba(0,0,0,0.06);
+}
+
+.fingerControl {
+  min-width: 320px;
+}
+
+.fingerRow {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+.checkInline {
+  display: inline-flex;
+  gap: 8px;
+  align-items: center;
+  font-size: 13px;
+  opacity: 0.9;
+  user-select: none;
+}
+.checkInline input { transform: translateY(1px); }
+
+.scalebar {
+  display: flex;
+  gap: 10px;
+  align-items: end;
+  flex-wrap: wrap;
+}
+
+.actions {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+.stage {
+  background: white;
+  border: 1px solid rgba(0,0,0,0.08);
+  border-radius: 16px;
+  padding: 14px;
+}
+
+.mount {
+  overflow-x: auto;
+  overflow-y: hidden;
+  padding-bottom: 4px;
+}
+
+/* analysis panel */
+.analysis {
+  margin-top: 14px;
+  background: white;
+  border: 1px solid rgba(0,0,0,0.08);
+  border-radius: 16px;
+  padding: 14px;
+}
+
+.analysisHeader {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px 14px;
+  align-items: baseline;
+  justify-content: space-between;
+  margin-bottom: 12px;
+}
+
+.analysisTitle {
+  font-size: 16px;
+  font-weight: 800;
+}
+
+.analysisSubtitle {
+  font-size: 13px;
+  opacity: 0.75;
+}
+
+.analysisGrid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 12px;
+}
+
+.analysisCard {
+  border: 1px solid rgba(0,0,0,0.08);
+  border-radius: 14px;
+  padding: 12px;
+  background: #fbfbfc;
+  min-height: 72px;
+}
+
+.analysisCardWide {
+  grid-column: 1 / -1;
+}
+
+/* If the wide chord card is used outside the analysis grid, don't force it to span columns */
+.currentChordPanel .analysisCardWide {
+  grid-column: auto;
+}
+
+.analysisLabel {
+  font-size: 12px;
+  opacity: 0.75;
+  margin-bottom: 8px;
+  font-weight: 700;
+  letter-spacing: 0.2px;
+}
+
+.analysisBody {
+  font-size: 14px;
+  line-height: 1.45;
+  word-break: break-word;
+}
+
+.chordList {
+  margin: 0;
+  padding-left: 18px;
+}
+.chordList li { margin: 4px 0; }
+.chordPrimary { font-weight: 900; }
+.chordAlt { opacity: 0.85; }
+.muted { opacity: 0.75; }
+
+@media (max-width: 980px) {
+  .analysisGrid { grid-template-columns: 1fr; }
+  .analysisCardWide { grid-column: auto; }
+  .fingerControl { min-width: 0; width: 100%; }
+}
+
+.hint {
+  margin-top: 10px;
+  font-size: 13px;
+  opacity: 0.8;
+}
+
+.endnotes {
+  margin: 10px auto 0;
+  max-width: 1260px;   /* match .app width */
+  font-size: 13px;
+  opacity: 0.8;
+  text-align: center;
+}
+
+
+/* chord panel */
+.chordsPanel {
+  margin-top: 14px;
+  background: white;
+  border: 1px solid rgba(0,0,0,0.08);
+  border-radius: 16px;
+  padding: 14px;
+}
+
+.chordsHeader {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px 14px;
+  align-items: baseline;
+  justify-content: space-between;
+  margin-bottom: 12px;
+}
+
+.chordsTitle {
+  font-size: 16px;
+  font-weight: 800;
+}
+
+.chordsSubtitle {
+  font-size: 13px;
+  opacity: 0.75;
+}
+
+.chordbar {
+  display: flex;
+  gap: 10px;
+  align-items: end;
+  flex-wrap: wrap;
+  margin-top: 10px;
+}
+
+.app-title {
+  text-align: center;
+  font-size: 42px;
+  font-weight: 700;
+  margin: 26px 0 18px;
+  letter-spacing: 0.5px;
+}
+
+.app-subtitle {
+  font-size: 14px;
+  font-weight: 400;
+  opacity: 0.7;
+  margin-top: 10px;
+}
+
+.hidden {
+  display: none;
+}

@@ -1,0 +1,262 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Keyboard Highlighter</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <div class="app-title">
+    Piano Visualiser Tool
+    <div></div>
+    <div class="app-subtitle">A free to use tool to visualise and hear scales, intervals, and basic chords, with the ability to download png images to share with students, etc<br>
+    Use the colours to define notes for each hand, and the finger label function to notate finger position<br>
+  I hope this is helpful! If it is, feel free to grab me a coffee at <a href="https://paypal.me/henrynewbury">paypal.me/henrynewbury</a> thanks! ☺️</div>
+  </div>
+  <div class="app">
+    <div class="topbar">
+      <div class="control">
+        <label>Keyboard range</label>
+        <div class="segmented" role="group" aria-label="keyboard range">
+          <button id="range3Btn" class="segBtn" type="button">3 octaves (C3)</button>
+          <button id="range4Btn" class="segBtn isActive" type="button">4 octaves (C2)</button>
+          <button id="range5Btn" class="segBtn" type="button">5 octaves (C2)</button>
+        </div>
+      </div>
+
+      <div class="control">
+        <label>Active hand</label>
+        <div class="segmented" role="group" aria-label="active hand">
+          <button id="handLeftBtn" class="segBtn isActive" type="button">Left</button>
+          <button id="handRightBtn" class="segBtn" type="button">Right</button>
+        </div>
+      </div>
+
+      <!-- Preset colour circles BEFORE the colour pickers, so it's obvious they apply to the active hand -->
+      <div class="swatches" aria-label="preset colours (applies to active hand)">
+        <button class="swatch" data-color="#4da3ff" title="Blue"></button>
+        <button class="swatch" data-color="#ff6b6b" title="Red"></button>
+        <button class="swatch" data-color="#34c759" title="Green"></button>
+        <button class="swatch" data-color="#af52de" title="Purple"></button>
+        <button class="swatch" data-color="#ff9f0a" title="Orange"></button>
+      </div>
+
+      <div class="control">
+        <label for="colorLeft">Left colour</label>
+        <input id="colorLeft" class="colorPicker" type="color" value="#4da3ff" />
+      </div>
+
+      <div class="control">
+        <label for="colorRight">Right colour</label>
+        <input id="colorRight" class="colorPicker" type="color" value="#34c759" />
+      </div>
+
+      <div class="control fingerControl">
+        <label for="fingerSelect">Finger label</label>
+        <div class="fingerRow">
+          <select id="fingerSelect" title="Choose a finger number to stamp onto clicked notes">
+            <option value="">—</option>
+            <option value="1">1</option>
+            <option value="2">2</option>
+            <option value="3">3</option>
+            <option value="4">4</option>
+            <option value="5">5</option>
+          </select>
+
+          <label class="checkInline" title="Show / hide finger numbers on the keyboard">
+            <input id="showFingers" type="checkbox" checked />
+            <span>Show</span>
+          </label>
+
+          <button id="clearFingersBtn" type="button" class="btnSubtle">Clear fingers</button>
+        </div>
+      </div>
+<div class="scaleChordRow scaleChordRowMain" aria-label="highlighter and currently displayed">
+<div class="chordsPanel scaleChordPanel" aria-label="scale and chord highlighter">
+  <div class="chordsHeader">
+    <div class="chordsTitle">Scale, Interval & Chord Highlighter</div>
+    <div class="chordsSubtitle">
+    </div>
+  </div>
+
+  <div class="chordbar">
+    <div class="control">
+      <label for="rootSelect">Root</label>
+      <select id="rootSelect">
+        <option value="0">C</option>
+        <option value="1">C#/Db</option>
+        <option value="2">D</option>
+        <option value="3">D#/Eb</option>
+        <option value="4">E</option>
+        <option value="5">F</option>
+        <option value="6">F#/Gb</option>
+        <option value="7">G</option>
+        <option value="8">G#/Ab</option>
+        <option value="9">A</option>
+        <option value="10">A#/Bb</option>
+        <option value="11">B</option>
+      </select>
+    </div>
+
+    <div class="control">
+      <label for="scaleSelect">Scale / Mode</label>
+      <select id="scaleSelect">
+        <option value="ionian">Major (Ionian)</option>
+        <option value="aeolian">Natural Minor (Aeolian)</option>
+        <option value="harmonic_minor">Harmonic Minor</option>
+        <option value="melodic_minor">Melodic Minor (ascending)</option>
+        <option value="dorian">Dorian</option>
+        <option value="phrygian">Phrygian</option>
+        <option value="lydian">Lydian</option>
+        <option value="mixolydian">Mixolydian</option>
+        <option value="locrian">Locrian</option>
+      </select>
+    </div>
+
+    <button id="applyScaleBtn" type="button" title="Highlights one octave starting at/above C3">
+      Highlight (1 octave)
+    </button>
+
+    <button id="applyAllBtn" type="button" title="Highlights all occurrences across the full keyboard">
+      Highlight (All)
+    </button>
+  </div>
+
+  <div class="chordbar">
+    <div class="control">
+      <label for="intervalSelect">Interval</label>
+      <select id="intervalSelect" title="Highlights the selected interval above the chosen Root (starting from octave 3)">
+        <option value="0">Unison / Perfect 1st</option>
+        <option value="1">Minor 2nd / Semitone / Half Step</option>
+        <option value="2">Major 2nd / Whole Step / Whole Tone</option>
+        <option value="3">Minor 3rd</option>
+        <option value="4">Major 3rd</option>
+        <option value="5">Perfect 4th</option>
+        <option value="6">Tritone / Augmented 4th / Diminished 5th</option>
+        <option value="7">Perfect 5th</option>
+        <option value="8">Minor 6th</option>
+        <option value="9">Major 6th</option>
+        <option value="10">Minor 7th</option>
+        <option value="11">Major 7th</option>
+        <option value="12">Octave / Perfect 8th</option>
+      </select>
+    </div>
+
+    <button id="showIntervalBtn" type="button" title="Highlights the selected interval above the chosen Root (C3+)">
+      Highlight Interval
+    </button>
+  </div>
+
+  <div class="chordbar">
+    <div class="control">
+      <label for="triadQuality">Triad</label>
+      <select id="triadQuality">
+        <option value="maj">Major</option>
+        <option value="min">Minor</option>
+        <option value="aug">Augmented</option>
+        <option value="dim">Diminished</option>
+      </select>
+    </div>
+
+    <div class="control">
+      <label for="triadInversion">Inversion</label>
+      <select id="triadInversion">
+        <option value="0">Root position</option>
+        <option value="1">1st inversion</option>
+        <option value="2">2nd inversion</option>
+      </select>
+    </div>
+
+    <button id="showTriadBtn" type="button" title="Highlights one triad voicing (C3+)">
+      Highlight Triad
+    </button>
+  </div>
+
+  <div class="chordbar">
+    <div class="control">
+      <label for="seventhTriadQuality">Triad (root position)</label>
+      <select id="seventhTriadQuality">
+        <option value="maj">Major</option>
+        <option value="min">Minor</option>
+        <option value="aug">Augmented</option>
+        <option value="dim">Diminished</option>
+      </select>
+    </div>
+
+    <div class="control">
+      <label for="seventhQuality">7th</label>
+      <select id="seventhQuality">
+        <option value="maj7">Major 7th</option>
+        <option value="min7">Minor 7th</option>
+      </select>
+    </div>
+
+    <button id="showSeventhBtn" type="button" title="Highlights a root-position triad + chosen 7th interval (C3+)">
+      Highlight 7th
+    </button>
+  </div>
+
+  
+</div>
+
+<div class="rightPanels">
+<div class="analysis" aria-live="polite">
+      <div class="analysisHeader">
+        <div class="analysisTitle">Currently displayed</div>
+        <div class="analysisSubtitle" id="analysisSubtitle">No notes selected.</div>
+      </div>
+
+      <div class="analysisGrid">
+        <div class="analysisCard">
+          <div class="analysisLabel">Notes</div>
+          <div class="analysisBody" id="notesOut">—</div>
+        </div>
+
+        <div class="hidden">
+          <div class="analysisLabel">Intervals above bass</div>
+          <div class="analysisBody" id="bassIntervalsOut">—</div>
+        </div>
+
+        <div class="hidden">
+          <div class="analysisLabel">Intervals above detected root</div>
+          <div class="analysisBody" id="rootIntervalsOut">—</div>
+        </div>
+
+        <div class="analysisCard">
+          <div class="analysisLabel">Chord or Interval</div>
+          <div class="analysisBody" id="chordsOut">—</div>
+        </div>
+      </div>
+        <br>
+      <div class="analysisSubtitle" id="analysisSubtitle">Note: chord display is coded and may not be 100% accurate!</div>
+    </div>
+<div class="chordsPanel controlsPanel" aria-label="keyboard controls">
+  <div class="chordsHeader">
+    <div class="chordsTitle">Keyboard Controls</div>
+    <div class="chordsSubtitle"></div>
+  </div>
+  <div class="actions">
+        <button id="clearBtn" type="button">Clear</button>
+        <button id="downloadBtn" type="button">Download PNG</button>
+        <button id="playSimBtn" type="button">Play Highlighted Notes Simultaneously</button>
+        <button id="playSeqBtn" type="button">Play Highlighted Notes Sequentially</button>
+        <button id="stopNotesBtn" type="button" title="Stops any currently playing notes (fast fade)">Stop Notes</button>
+      </div>
+</div>
+</div>
+    </div>
+
+    <div class="stage">
+      <div id="mount" class="mount"></div>
+    </div>
+
+    <div class="endnotes">
+      Made as a free to use tool as I couldn't find a similar one when looking!
+      The piano sounds are recordings of my own upright 🙂
+    </div>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>
