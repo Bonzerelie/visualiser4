@@ -1322,13 +1322,32 @@ if (showSeventhBtn) {
     })).sort((a, b) => a.abs - b.abs);
   }
 
-  function sendHeight() {
-    const height = document.body.scrollHeight;
-    parent.postMessage({ iframeHeight: height }, "*");
+  let lastHeight = 0;
+
+function sendHeight() {
+  const height = document.documentElement.scrollHeight;
+
+  if (height !== lastHeight) {
+    parent.postMessage(
+      { iframeHeight: height },
+      "*"
+    );
+    lastHeight = height;
   }
-  
-  window.addEventListener("load", sendHeight);
-  window.addEventListener("resize", sendHeight);
+}
+
+// Initial + resize
+window.addEventListener("load", sendHeight);
+window.addEventListener("resize", sendHeight);
+
+// 🔑 Watch for dynamic changes
+const observer = new MutationObserver(sendHeight);
+observer.observe(document.body, {
+  childList: true,
+  subtree: true,
+  attributes: true
+});
+
 
   function intervalSetForRoot(pcSet, rootPc) {
     const out = new Set();
