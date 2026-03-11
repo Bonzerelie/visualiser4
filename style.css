@@ -1,6 +1,12 @@
+/* /style.css */
 :root {
-  --page-bg: #f6f6f6;
+  --page-bg: #ffffff;
   --text: #111;
+  --primary: #ffffff;
+  --card: #f9f9f9;
+  --border: rgba(0,0,0,.2);
+  --shadow: rgba(0,0,0,.08);
+  --text-max: 1100px;
 }
 
 * { box-sizing: border-box; }
@@ -13,13 +19,41 @@ body {
 }
 
 .app {
-  /*
-    Sized to fit the 4-octave keyboard (C2 start) without horizontal scrolling.
-    (The 5-octave view will still scroll, as intended.)
-  */
   max-width: 1260px;
-  margin: 24px auto;
+  margin: 8px auto;
   padding: 16px;
+}
+
+.hero {
+  text-align: center;
+  max-width: var(--text-max);
+  margin: 0 auto 20px;
+}
+
+.heroTitleText {
+  text-align: center;
+  font-size: 38px;
+  font-weight: 800;
+  margin: 16px 0 10px;
+  letter-spacing: 0.5px;
+}
+
+.app-subtitle {
+  margin: 0 auto;
+  font-size: 15px;
+  font-weight: 400;
+  opacity: .78;
+  line-height: 1.45;
+  max-width: 980px;
+}
+
+.app-subtitle a {
+  color: var(--primary);
+  font-weight: bold;
+  text-decoration: none;
+}
+.app-subtitle a:hover {
+  text-decoration: underline;
 }
 
 .topbar {
@@ -31,26 +65,41 @@ body {
   margin-bottom: 14px;
 }
 
-/* scale/chord highlighter on the left + right-side panels */
-.topbar .scaleChordRow {
+/* Title images */
+.app-titleWrap{
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  margin:14px 0 6px;
+}
+.app-titleImg{
+  height:auto;
+  display:block;
+  user-select:none;
+  -webkit-user-drag:none;
+  padding-bottom: 10px;
+  max-width: 100%;
+}
+.app-titleImgWide{ width:min(600px, 100%); }
+.app-titleImgWrapped{ width:min(220px, 55vw); }
+
+.scaleChordRow {
   flex-basis: 100%;
   width: 100%;
   display: flex;
   gap: 12px 16px;
   align-items: stretch;
-  flex-wrap: wrap; /* allows stacking on smaller screens */
+  flex-wrap: wrap; 
 }
 
-/* Left panel (highlighter) stays content-sized */
-.topbar .scaleChordPanel {
+.scaleChordPanel {
   flex: 0 0 auto;
   width: fit-content;
   max-width: 100%;
   align-self: stretch;
 }
 
-/* Right column: stacks "Currently displayed" + "Keyboard Controls" */
-.topbar .rightPanels {
+.rightPanels {
   flex: 1 1 360px;
   min-width: 320px;
   display: flex;
@@ -60,29 +109,24 @@ body {
   height: 100%;
 }
 
-/* Make the 'Currently displayed' panel grow so the *combined* right column height
-   matches the left panel, keeping the layout symmetrical. */
-.topbar .rightPanels .analysis {
+.rightPanels .analysis {
   flex: 1 1 auto;
   margin-top: 0;
   display: flex;
   flex-direction: column;
 }
 
-/* Controls panel sits under the analysis panel */
-.topbar .rightPanels .controlsPanel {
+.rightPanels .controlsPanel {
   flex: 0 0 auto;
   margin-top: 0;
 }
 
-/* Remove extra top spacing when panels live in the topbar row */
-.topbar .chordsPanel { margin-top: 0; }
-
-
+.chordsPanel { margin-top: 0; }
 
 .control label {
   display: block;
   font-size: 13px;
+  font-weight: 800;
   margin-bottom: 6px;
   opacity: 0.85;
 }
@@ -91,7 +135,7 @@ body {
   width: 56px;
   height: 38px;
   padding: 0;
-  border: 1px solid #ccc;
+  border: 1px solid var(--border);
   border-radius: 10px;
   background: white;
   cursor: pointer;
@@ -101,10 +145,10 @@ select {
   height: 38px;
   padding: 0 10px;
   border-radius: 12px;
-  border: 1px solid rgba(0,0,0,0.2);
+  border: 1px solid var(--border);
   background: white;
   cursor: pointer;
-  font-weight: 600;
+  font-weight: 800;
 }
 
 .swatches {
@@ -117,7 +161,7 @@ select {
   width: 28px;
   height: 28px;
   border-radius: 999px;
-  border: 1px solid rgba(0,0,0,0.2);
+  border: 1px solid var(--border);
   cursor: pointer;
   background: #ddd;
 }
@@ -130,12 +174,18 @@ button {
   height: 38px;
   padding: 0 14px;
   border-radius: 12px;
-  border: 1px solid rgba(0,0,0,0.2);
+  border: 1px solid var(--border);
   background: white;
   cursor: pointer;
-  font-weight: 700;
+  font-weight: 900;
 }
 button:active { transform: translateY(1px); }
+
+.primary {
+  background: var(--primary);
+  color: #000000;
+  border-color: rgba(0,0,0,.2);
+}
 
 .btnSubtle {
   font-weight: 700;
@@ -144,7 +194,7 @@ button:active { transform: translateY(1px); }
 
 .segmented {
   display: inline-flex;
-  border: 1px solid rgba(0,0,0,0.2);
+  border: 1px solid var(--border);
   border-radius: 12px;
   overflow: hidden;
   background: #fff;
@@ -181,17 +231,11 @@ button:active { transform: translateY(1px); }
   gap: 8px;
   align-items: center;
   font-size: 13px;
+  font-weight: 800;
   opacity: 0.9;
   user-select: none;
 }
 .checkInline input { transform: translateY(1px); }
-
-.scalebar {
-  display: flex;
-  gap: 10px;
-  align-items: end;
-  flex-wrap: wrap;
-}
 
 .actions {
   display: flex;
@@ -200,29 +244,31 @@ button:active { transform: translateY(1px); }
   flex-wrap: wrap;
 }
 
-.stage {
-  background: white;
-  border: 1px solid rgba(0,0,0,0.08);
+.customCard {
+  background: var(--card);
+  border: 1px solid var(--border);
   border-radius: 16px;
   padding: 14px;
+  box-shadow: 0 6px 16px var(--shadow);
+}
+
+.stage {
+  margin-top: 14px;
 }
 
 .mount {
-  overflow-x: auto;
-  overflow-y: hidden;
+  overflow: hidden; 
   padding-bottom: 4px;
 }
 
-/* analysis panel */
-.analysis {
-  margin-top: 14px;
-  background: white;
-  border: 1px solid rgba(0,0,0,0.08);
-  border-radius: 16px;
-  padding: 14px;
+.mount svg {
+  width: 100%;
+  height: auto;
+  max-width: 100%;
+  display: block;
 }
 
-.analysisHeader {
+.analysisHeader, .chordsHeader {
   display: flex;
   flex-wrap: wrap;
   gap: 8px 14px;
@@ -231,14 +277,22 @@ button:active { transform: translateY(1px); }
   margin-bottom: 12px;
 }
 
-.analysisTitle {
+.analysisTitle, .chordsTitle {
   font-size: 16px;
   font-weight: 800;
 }
 
-.analysisSubtitle {
+.analysisSubtitle, .chordsSubtitle {
   font-size: 13px;
   opacity: 0.75;
+}
+
+.chordbar {
+  display: flex;
+  gap: 10px;
+  align-items: end;
+  flex-wrap: wrap;
+  margin-top: 10px;
 }
 
 .analysisGrid {
@@ -248,10 +302,10 @@ button:active { transform: translateY(1px); }
 }
 
 .analysisCard {
-  border: 1px solid rgba(0,0,0,0.08);
+  border: 1px solid var(--border);
   border-radius: 14px;
   padding: 12px;
-  background: #fbfbfc;
+  background: #fff;
   min-height: 72px;
 }
 
@@ -259,7 +313,6 @@ button:active { transform: translateY(1px); }
   grid-column: 1 / -1;
 }
 
-/* If the wide chord card is used outside the analysis grid, don't force it to span columns */
 .currentChordPanel .analysisCardWide {
   grid-column: auto;
 }
@@ -268,13 +321,14 @@ button:active { transform: translateY(1px); }
   font-size: 12px;
   opacity: 0.75;
   margin-bottom: 8px;
-  font-weight: 700;
+  font-weight: 800;
   letter-spacing: 0.2px;
 }
 
 .analysisBody {
   font-size: 14px;
   line-height: 1.45;
+  font-weight: 800;
   word-break: break-word;
 }
 
@@ -293,72 +347,15 @@ button:active { transform: translateY(1px); }
   .fingerControl { min-width: 0; width: 100%; }
 }
 
-.hint {
-  margin-top: 10px;
-  font-size: 13px;
-  opacity: 0.8;
+.hidden {
+  display: none;
 }
 
 .endnotes {
-  margin: 10px auto 0;
-  max-width: 1260px;   /* match .app width */
+  margin: 16px auto 0;
+  max-width: var(--text-max);
   font-size: 13px;
-  opacity: 0.8;
-  text-align: center;
-}
-
-
-/* chord panel */
-.chordsPanel {
-  margin-top: 14px;
-  background: white;
-  border: 1px solid rgba(0,0,0,0.08);
-  border-radius: 16px;
-  padding: 14px;
-}
-
-.chordsHeader {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 8px 14px;
-  align-items: baseline;
-  justify-content: space-between;
-  margin-bottom: 12px;
-}
-
-.chordsTitle {
-  font-size: 16px;
   font-weight: 800;
-}
-
-.chordsSubtitle {
-  font-size: 13px;
-  opacity: 0.75;
-}
-
-.chordbar {
-  display: flex;
-  gap: 10px;
-  align-items: end;
-  flex-wrap: wrap;
-  margin-top: 10px;
-}
-
-.app-title {
-  text-align: center;
-  font-size: 42px;
-  font-weight: 700;
-  margin: 26px 0 18px;
-  letter-spacing: 0.5px;
-}
-
-.app-subtitle {
-  font-size: 14px;
-  font-weight: 400;
   opacity: 0.7;
-  margin-top: 10px;
-}
-
-.hidden {
-  display: none;
+  text-align: center;
 }

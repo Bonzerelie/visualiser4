@@ -1,3 +1,4 @@
+/* /script.js */
 (() => {
   // ======================================================================
   // ============================= CONFIG =================================
@@ -147,6 +148,18 @@
       else colorRight.value = c;
       applyHighlightColors();
     });
+  });
+
+  // Keyboard shortcut listener for finger selection (1-5 and 0/Backspace for clear)
+  document.addEventListener("keydown", (e) => {
+    // Ignore input if user is clicking on standard dropdowns or inputs
+    if (e.target.tagName === "INPUT" || e.target.tagName === "SELECT") return;
+
+    if (["1", "2", "3", "4", "5"].includes(e.key)) {
+      if (fingerSelect) fingerSelect.value = e.key;
+    } else if (e.key === "0" || e.key === "Backspace" || e.key === "Delete") {
+      if (fingerSelect) fingerSelect.value = "";
+    }
   });
 
   // ======================================================================
@@ -669,6 +682,7 @@
       width: outerW,
       height: OUTER_H,
       viewBox: `0 0 ${outerW} ${OUTER_H}`,
+      preserveAspectRatio: "xMidYMid meet",
       role: "img",
       "aria-label": "Keyboard"
     });
